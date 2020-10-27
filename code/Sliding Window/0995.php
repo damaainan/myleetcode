@@ -9,14 +9,14 @@
     **输入：**A = [0,1,0], K = 1
     **输出：**2
     **解释：**先翻转 A[0]，然后翻转 A[2]。
-    
+
 
 **示例 2：**
 
     **输入：**A = [1,1,0], K = 2
     **输出：**-1
     **解释：**无论我们怎样翻转大小为 2 的子数组，我们都不能使数组变为 [1,1,1]。
-    
+
 
 **示例 3：**
 
@@ -26,7 +26,7 @@
     翻转 A[0],A[1],A[2]: A变成 [1,1,1,1,0,1,1,0]
     翻转 A[4],A[5],A[6]: A变成 [1,1,1,1,1,0,0,0]
     翻转 A[5],A[6],A[7]: A变成 [1,1,1,1,1,1,1,1]
-    
+
 
 **提示：**
 
@@ -39,41 +39,45 @@
  * K 连续位的最小翻转次数 (连续翻转)
  * @param  array $arr
  * @param  int $k
- * @return int     
+ * @return int
  */
 function deal(array $arr, int $k):int{
-	$start_time = microtime(true);
-	$start_memory = memory_get_usage(true);
-	/***************代码开始*********************/
-	
-	$len = count($arr);
-	$ret = -1;
+    $start_time = microtime(true);
+    $start_memory = memory_get_usage(true);
+    /***************代码开始*********************/
 
-	//未完
-	for ($j = 0; $j < $len - $k + 1; $j++) {
-		$subarr = array_slice($arr, $j, $k);
-		if(array_unshift($subarr) == 1){
-			continue;
-		}
-		if(!in_array(0, $subarr)){
-			continue;
-		}
-		
-	}
+    $len = count($arr);
+    $cur = 0;
+    $res = 0;
+    //
+    for ($j = 0; $j < $len; $j++) {
+        if($j >= $k && $arr[$j-$k] == 2) {
+            $cur -= 1;
+        }
+        if(($cur % 2) == $arr[$j]){
+            if(($j+$k) > $len){
+                return -1;
+            }
+            $arr[$j] = 2;
+            $cur += 1;
+            $res += 1;
+        }
 
-	/***************代码结束*******************/
-	/***********性能监控***********************/ 
-	$end_time = microtime(true);
-	$need_time = $end_time - $start_time;
-	$end_memory = memory_get_usage(true);
-	$memory_peak = memory_get_peak_usage(true);
-	print_r("耗时:" . $need_time . "\r\n");
-	print_r("开始内存:" . $start_memory . "\r\n");
-	print_r("结束内存:" . $end_memory . "\r\n");
-	print_r("峰值内存:" . $memory_peak . "\r\n");
-	/*******************************************/
-	
-	return $ret;
+    }
+
+    /***************代码结束*******************/
+    /***********性能监控***********************/
+    $end_time = microtime(true);
+    $need_time = $end_time - $start_time;
+    $end_memory = memory_get_usage(true);
+    $memory_peak = memory_get_peak_usage(true);
+    print_r("耗时:" . $need_time . "\r\n");
+    print_r("开始内存:" . $start_memory . "\r\n");
+    print_r("结束内存:" . $end_memory . "\r\n");
+    print_r("峰值内存:" . $memory_peak . "\r\n");
+    /*******************************************/
+
+    return $res;
 }
 
 echo deal([0,1,0], 1);
