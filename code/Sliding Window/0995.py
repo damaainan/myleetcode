@@ -1,6 +1,7 @@
+from typing import List
 
-# def minKBitFlips(A: List[int], K: int) -> int:
-def minKBitFlips(A, K) -> int:
+def minKBitFlips(A: List[int], K: int) -> int:
+# def minKBitFlips(A, K) -> int:
     res = cur = 0
     for i in range(len(A)):
         if i >= K and A[i-K] == 2:
