@@ -50,6 +50,29 @@ function deal(array $arr):array{
     $start_time = microtime(true);
     $start_memory = memory_get_usage(true);
     /***************代码开始*********************/
+    sort($arr);
+    $n = count($arr);
+    $s1 = $arr[$n-1]-$arr[0]+1-$n; // 可以放置的空间
+    $s2 = min($arr[$n-1]-$arr[$n-2]-1, $arr[1]-$arr[0]-1);
+    $max = $s1 - $s2;
+
+    $min = $max;
+
+    $i = 0;
+    $j = 0;
+    for ($i=0; $i < $n; $i++) {
+        while($j + 1 < $n && $arr[$j+1]-$arr[$i]+1 <= $n){
+            $j++;
+        }
+
+        $cost = $n - ($j -$i +1);
+        if($j - $i + 1 == $n - 1 && $arr[$j]-$arr[$i]+1 == $n - 1){
+            $cost = 2;
+        }
+        $min = min($min, $cost);
+    }
+
+
 
 
     /***************代码结束*******************/
@@ -63,7 +86,7 @@ function deal(array $arr):array{
     print_r("结束内存:" . $end_memory . "\r\n");
     print_r("峰值内存:" . $memory_peak . "\r\n");
     /*******************************************/
-    return ;
+    return [$min, $max];
 }
 
 print_r(deal([7,4,9]));
