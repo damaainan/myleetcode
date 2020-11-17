@@ -46,7 +46,19 @@ function deal(array $obstacleGrid):int{
 	$start_time = microtime(true);
 	$start_memory = memory_get_usage(true);
 	/***************代码开始*********************/
-	
+	$m = count($obstacleGrid);
+	$n = count($obstacleGrid[0]);
+	$dp = array_fill(0, $n, 0);
+	$dp[0] = 1;
+
+	for ($i=0; $i < $m; $i++) { 
+		for ($j=1; $j < $n; $j++) { 
+			if ($obstacleGrid[$i][$j] == 0){
+				$dp[$j] = $dp[$j] + $dp[$j - 1];
+			}
+		}
+	}
+	$res = $dp[count($dp)-2];
 
 	/***************代码结束*******************/
 	/***********性能监控***********************/ 
@@ -59,5 +71,7 @@ function deal(array $obstacleGrid):int{
 	print_r("结束内存:" . $end_memory . "\r\n");
 	print_r("峰值内存:" . $memory_peak . "\r\n");
 	/*******************************************/
-	return 1;
+	return $res;
 }
+
+echo deal([[0,0,0],[0,1,0],[0,0,0]]);
